@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 /*
-
     bir user olustrup databse e kayıt edelim
  */
 public class Main {

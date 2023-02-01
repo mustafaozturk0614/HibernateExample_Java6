@@ -42,4 +42,5 @@ public class User {
     List<String> interests;
     @ElementCollection()
     private Map<AddressType,Address> address;
+    private int postCount;
 }
