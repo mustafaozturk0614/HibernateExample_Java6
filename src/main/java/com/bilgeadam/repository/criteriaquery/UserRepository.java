@@ -5,12 +5,12 @@ package com.bilgeadam.repository.criteriaquery;
  */
 
 
-import com.bilgeadam.repository.entity.ICrud;
-import com.bilgeadam.repository.entity.Name;
-import com.bilgeadam.repository.entity.User;
+import com.bilgeadam.repository.entity.*;
 import com.bilgeadam.utility.HibernateUtils;
 
+import javax.naming.event.ObjectChangeListener;
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
 import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +26,9 @@ import java.util.Optional;
 7- toplam post sayısını donen metodu yazalım
 8- en az post atan kullanıcı
 9- en cok post atan kullanıcı
+10- kullanıcların username gender ve post count donelim
+11- erkek kullanıcı sayısı ve kadın kullanıcı sayısını bulalım
+12-
 
  */
 public class UserRepository implements ICrud<User> {
@@ -153,4 +156,39 @@ public class UserRepository implements ICrud<User> {
         criteria.select(root).where(criteriaBuilder.equal(root.get("postCount"), max));
         return entityManager.createQuery(criteria).getSingleResult();
     }
+    public List<Object[]> getUsernameGenderPostCount(){
+        CriteriaQuery<Object[]> criteria= criteriaBuilder.createQuery(Object[].class);
+        Root<User> root= criteria.from(User.class);
+        criteria.multiselect(root.get("username"),root.get("gender"),root.get("postCount"));
+        return  entityManager.createQuery(criteria).getResultList();
+    }
+    public List<Tuple> getUsernameGenderPostCount2(){
+        CriteriaQuery<Tuple> criteria= criteriaBuilder.createQuery(Tuple.class);
+        Root<User> root= criteria.from(User.class);
+        Path<String> username=root.get("username");
+        Path<EGender> gender=root.get("gender");
+        Path<Integer> postCount=root.get("postCount");
+        criteria.multiselect(username,gender,postCount);
+
+
+       List<Tuple> tuple=  entityManager.createQuery(criteria).getResultList();
+       tuple.forEach(x->{
+           System.out.println( "username= "+x.get(username));
+           System.out.println( "gender= "+x.get(gender));
+           System.out.println( "postcount= "+x.get(postCount));
+           System.out.println("---------------------------");
+       });
+       return  tuple;
+    }
+
+    public List<Object[]> userCountByGender(){
+        CriteriaQuery<Object[]> criteria = criteriaBuilder.createQuery(Object[].class);
+        Root<User> root = criteria.from(User.class);
+        // select  gender,count(*) from user group by gender
+        criteria.multiselect(root.get("gender"),criteriaBuilder.count(root))
+                .groupBy(root.get("gender"));
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+
 }

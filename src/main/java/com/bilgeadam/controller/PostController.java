@@ -1,5 +1,6 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.repository.criteriaquery.PostRepository;
 import com.bilgeadam.repository.entity.Post;
 import com.bilgeadam.utility.HibernateUtils;
 import org.hibernate.Session;
@@ -11,6 +12,16 @@ import java.util.Date;
 public class PostController {
 
     public static void main(String[] args) {
+    //createPost();
+        PostRepository postRepository=new PostRepository();
+        postRepository.usersPostCount();
+        System.out.println("-----------------");
+        postRepository.usersPostCountGt3();
+
+    }
+
+
+    public  static void  createPost(){
         Session session= HibernateUtils.getSessionFactory().openSession();
         Transaction transaction= session.beginTransaction();
         Post post= Post.builder().content("içerik1").userId(1L).build();
@@ -39,6 +50,5 @@ public class PostController {
         session.save(post12);
         transaction.commit();
         session.close();
-
     }
 }

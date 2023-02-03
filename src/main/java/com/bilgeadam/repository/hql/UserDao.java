@@ -6,6 +6,7 @@ import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.utility.HibernateUtils;
 import org.hibernate.Session;
 
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -109,6 +110,13 @@ public class UserDao implements ICrud<User> {
         Session session= HibernateUtils.getSessionFactory().openSession();
         TypedQuery<Long> typedQuery=session.createQuery(hql, Long.class);
         return  typedQuery.getSingleResult();
+    }
+
+    public List<Tuple> userCountByGender(){
+        String hql="select gender ,count(u) from User as u group by gender";
+        Session session=HibernateUtils.getSessionFactory().openSession();
+        TypedQuery<Tuple> typedQuery=session.createQuery(hql,Tuple.class);
+        return  typedQuery.getResultList();
     }
 
 }

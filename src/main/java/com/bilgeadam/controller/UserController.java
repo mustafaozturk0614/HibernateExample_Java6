@@ -45,9 +45,30 @@ public class UserController {
                 forEach(x-> System.out.println(x.getName()+"-"+x.getPostCount()));*/
        // System.out.println( userRepository.sumPost());
        // System.out.println( userDao.sumPost());
-        System.out.println(userRepository.findUserWithMostPost2());
+     //   System.out.println(userRepository.findUserWithMostPost2());
+ /*           userRepository.getUsernameGenderPostCount().forEach(x->{
+                for(Object o:x ){
+                    System.out.print(o.toString()+"-");
+                }
+                System.out.println();
+            });*/
 
-       ;
+ /*       userRepository.getUsernameGenderPostCount2().forEach(x->{
+            System.out.println( "username= "+x.get(0));
+            System.out.println( "gender= "+x.get(1));
+            System.out.println( "postcount= "+x.get(2));
+            System.out.println("======================");
+        });*/
+ /*       userRepository.userCountByGender().forEach(x->{
+            Arrays.asList(x).forEach(y-> System.out.print(y+"-"));
+            System.out.println();
+        });*/
+        userDao.userCountByGender().forEach(x->{
+            for (Object o: x.toArray()){
+                System.out.println(o);
+            }
+
+        });
     }
 
     public  static  void createUser(){
