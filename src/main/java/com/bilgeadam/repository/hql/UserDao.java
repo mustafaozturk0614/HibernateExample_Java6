@@ -33,7 +33,38 @@ public class UserDao implements ICrud<User> {
        }
         return Optional.ofNullable(user);
     }
+    public List<User> findByUserStartWithValue(String value){
+        String hql="select u from User as u where u.name.name like:x";
+        Session session=HibernateUtils.getSessionFactory().openSession();
+        TypedQuery<User> typedQuery=session.createQuery(hql, User.class);
+        typedQuery.setParameter("x",value+"%");
+        return typedQuery.getResultList();
+    }
 
+    public List<User> findByUserStartWithValueAndPostCount(){
+        String hql="select u from User as u where u.name.name like:x and postCount>:number";
+        Session session=HibernateUtils.getSessionFactory().openSession();
+        TypedQuery<User> typedQuery= session.createQuery(hql, User.class);
+        typedQuery.setParameter("x","M%");
+        typedQuery.setParameter("number",6);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        User user=null;
+      //  String hql="select u from User as u where username="+"'"+username+"'";
+        String hql="select u from User as u where username=:myusername";
+        Session session= HibernateUtils.getSessionFactory().openSession();
+        TypedQuery<User> typedQuery=session.createQuery(hql, User.class);
+        typedQuery.setParameter("myusername",username);
+        try {
+            user =typedQuery.getSingleResult();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return Optional.ofNullable(user);
+    }
 
     public Optional<User> findbyId2(Long id) {
         User user=null;
@@ -72,4 +103,12 @@ public class UserDao implements ICrud<User> {
         List<String> users=typedQuery.getResultList();
         users.forEach(System.out::println);
     }
+
+    public long sumPost(){
+        String hql="select sum(postCount) from User";
+        Session session= HibernateUtils.getSessionFactory().openSession();
+        TypedQuery<Long> typedQuery=session.createQuery(hql, Long.class);
+        return  typedQuery.getSingleResult();
+    }
+
 }

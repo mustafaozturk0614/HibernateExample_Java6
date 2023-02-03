@@ -28,10 +28,26 @@ public class UserController {
      //   userDao.findAllUserUsername();
 /*    Optional<User> user=  userRepository.findbyId(10L);
      System.out.println(user);*/
-        Optional<User> user2=  userDao.findbyId(3L);
-        System.out.println(user2);
+     //   Optional<User> user2=  userDao.findbyId(3L);
+      //  System.out.println(user2);
       /*  Optional<User> user3=  userDao.findbyId2(20L);
         System.out.println(user3);*/
+     /*     Optional<User> user4=  userRepository.findByUsername("musty");
+        System.out.println(user4);*/
+       /* Optional<User> user5=  userDao.findByUsername("musty");
+        System.out.println(user5);*/
+
+      //  userRepository.findByUserStartWithValue("X").forEach(x-> System.out.println(x.getName()));
+       // userDao.findByUserStartWithValue("M").forEach(x-> System.out.println(x.getName()));
+      /*  userRepository.findByUserStartWithValueAndPostCount2().
+                forEach(x-> System.out.println(x.getName()+"-"+x.getPostCount()));*/
+   /*     userRepository.findByUserStartWithValueAndPostCount2().
+                forEach(x-> System.out.println(x.getName()+"-"+x.getPostCount()));*/
+       // System.out.println( userRepository.sumPost());
+       // System.out.println( userDao.sumPost());
+        System.out.println(userRepository.findUserWithMostPost2());
+
+       ;
     }
 
     public  static  void createUser(){

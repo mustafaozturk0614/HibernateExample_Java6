@@ -9,5 +9,7 @@ public interface ICrud <T>{
 
     Optional<T> findbyId(Long id);
 
+    Optional<T> findByUsername(String username);
+
 
 }
